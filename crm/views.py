@@ -26,16 +26,18 @@ def login(request):
     else:
         # GET方法则返回一个登陆页面
         return render(request,'login.html')
+    
 # 注册页面
 def register(request):
     if request.method == 'POST':
         form_obj = RegForm(request.POST)
-        print(form_obj)
+        # print(form_obj)
         if form_obj.is_valid():
             form_obj.save()
-            print(form_obj.is_valid())
-        print(">>>>",form_obj.is_valid())
-        return render(request, 'register.html')
+            # print(form_obj.is_valid())
+            return redirect(reverse('login'))
+        # print(">>>>",form_obj.is_valid())
+        return render(request, 'register.html', {'form_obj':form_obj})
     else:
         form_obj = RegForm()
-        return render(request, 'register.html', {'form_obj':form_obj})
+    return render(request, 'register.html', {'form_obj':form_obj})
