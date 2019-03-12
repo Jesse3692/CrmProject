@@ -1,3 +1,4 @@
+import hashlib
 from django.shortcuts import render,HttpResponse,redirect,reverse
 from crm import models
 from crm.forms import RegForm
@@ -14,6 +15,12 @@ def login(request):
     if request.method == 'POST':
         user = request.POST.get('username')
         pwd = request.POST.get('password')
+        
+        # MD5加密（登陆时加密）
+        md5 = hashlib.md5()
+        md5.update(pwd.encode('utf-8'))
+        pwd = md5.hexdigest()
+        
         obj = models.UserProfile.objects.filter(username=user,password=pwd,is_active=True).first()
         # print('>>>', obj)
         # print(user,pwd)

@@ -46,6 +46,12 @@ class RegForm(forms.ModelForm):
         re_pwd = self.cleaned_data.get('re_password', '')
         print('>>>', self.cleaned_data)
         if pwd == re_pwd:
+            # MD5加密（注册时加密）
+            md5 = hashlib.md5()
+            md5.update(pwd.encode('utf-8'))
+            pwd = md5.hexdigest()
+            
+            self.cleaned_data['password'] = pwd
             return self.cleaned_data
         
         # 两次密码不一致
