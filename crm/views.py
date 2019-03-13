@@ -53,3 +53,9 @@ def register(request):
 def customer_list(request):
     customer_obj = models.Customer.objects.all()
     return render(request, 'customer_list.html',{'all_customer':customer_obj})
+
+# 模拟大量用户
+users = [i for i in range(1,202)]
+# 分页功能简单
+def user_list(request):
+    return render(request, 'user_list.html',{'user':users})
