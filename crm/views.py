@@ -107,7 +107,29 @@ def user_list(request):
             page_start = page_num - half_show
             page_end = page_num + half_show
         
+        # 在后端直接处理前端的HTML代码，然后发送过去
         
+        # 添加上一页
+        page_list = []
+        if page_num == 1:  # 如果是第一页则上一页没法使用
+            page_list.append('<li class="disabled"><a>上一页</a></li>')
+        else:
+            page_list.append('<li><a href="?page={}">上一页</a></li>'.format(page_num - 1 ,))
         
+        # 添加分页按钮
+        for i in range(page_start, page_end + 1):
+            if i == page_num:  # 当前标签高亮
+                page_list.append('<li class="active"><a href="?page={}">{}</a></li>'.format(i,i))
+            else:
+                page_list.append('<li><a href="?page={}">{}</a></li>'.format(i,i))
+        
+        # 添加下一页按钮
+        if page_num == page_count:  # 如果是最后一页则下一页没法使用
+            page_list.append('<li class="disabled"><a>下一页</a></li>')
+        else:
+            page_list.append('<li><a href="?page={}">下一页</a></li>'.format(page_num + 1, ))
+        
+        # 对列表中的标签拼接成字符串
+        page_html = ''.join(page_list)
     
-    return render(request, 'user_list.html',{'all_users':users[page_start:page_end], 'page_count':range(page_start,page_end + 1)})
+        return render(request, 'user_list.html',{'all_users':users[page_start:page_end], 'page_html':page_html})
