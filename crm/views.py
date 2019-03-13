@@ -88,8 +88,26 @@ def user_list(request):
     if more:
         page_count += 1
     
-    # 起始页数
-    start_page = (page_num - 1)*per_num
-    # 结束页数
-    end_page = page_num*per_num
-    return render(request, 'user_list.html',{'all_users':users[start_page:end_page], 'page_count':range(page_num,page_count + 1)})
+    # 最大显示页数（显示多少个分页按钮）
+    max_show = 11
+    half_show = max_show // 2
+    
+    #          对页码显示的逻辑判断
+    if page_count < max_show:  # 总页码数 < 最大显示页码数
+        page_start = 1  # 起始页数
+        page_end = page_count  # 结束页数
+    else:  # 总页码数 > 最大显示页码数    -- 一般情况下
+        if page_num <= half_show:  # 请求的页码小于中间值时（左边极值）
+            page_start = 1
+            page_end = max_show
+        elif page_num + half_show >= page_count:  # 请求的页码加上中间值大于总页数时 （右边极值）
+            page_start = page_count - max_show + 1
+            page_end = page_count
+        else:
+            page_start = page_num - half_show
+            page_end = page_num + half_show
+        
+        
+        
+    
+    return render(request, 'user_list.html',{'all_users':users[page_start:page_end], 'page_count':range(page_start,page_end + 1)})
