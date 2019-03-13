@@ -48,3 +48,9 @@ def register(request):
     else:
         form_obj = RegForm()
     return render(request, 'register.html', {'form_obj':form_obj})
+
+# 新注册页面
+def register_new(request):
+    if request.method == 'GET':
+        return render(request, 'register_new.html')
+    return render(request, 'register_new.html')
