@@ -95,7 +95,7 @@ class Customer(models.Model):
     last_consult_date = models.DateField("最后跟进日期", auto_now_add=True)
     next_date = models.DateField("预计再次跟进时间", blank=True, null=True)
     consultant = models.ForeignKey('UserProfile', verbose_name="销售", related_name='customers', blank=True, null=True, )
-    class_list = models.ManyToManyField('ClassList', verbose_name="已报班级", )
+    class_list = models.ManyToManyField('ClassList', verbose_name="已报班级", blank=True)
 
 
 class Campuses(models.Model):
