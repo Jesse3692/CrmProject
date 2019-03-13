@@ -1,5 +1,6 @@
 from django.db import models
 from multiselectfield import MultiSelectField
+from django.utils.safestring import mark_safe
 
 # Create your models here.
 course_choices = (('Linux', 'Linux中高级'),
@@ -109,6 +110,23 @@ class Customer(models.Model):
         return ' | '.join([str(i) for i in self.class_list.all()])
     
     # 根据状态不同在前端显示不同的颜色
+    def show_status_with_color(self):
+        """
+             (('signed', "已报名"),
+             ('unregistered', "未报名"),
+             ('studying', '学习中'),
+             ('paid_in_full', "学费已交齐"))
+            :return:
+        """
+        status_color = {
+            'signed':'#CED643', # 黄色
+            'unregistered':'#D9534F',  # 红色
+            'studying':'#5CB85C',  # 绿色
+            'paid_in_full':'#2F72AB' # 蓝色
+        }
+        return mark_safe('<p style="background-color:{}; color:#FFF;" class="btn center" type="button">{}</p>'.format(status_color.get(self.status), self.get_status_display()))
+        # return mark_safe('<p style="background-color: {};color: white;padding: 2px">hello</p>')
+        
     
 
 class Campuses(models.Model):
