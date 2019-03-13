@@ -49,8 +49,7 @@ def register(request):
         form_obj = RegForm()
     return render(request, 'register.html', {'form_obj':form_obj})
 
-# 新注册页面
-def register_new(request):
-    if request.method == 'GET':
-        return render(request, 'register_new.html')
-    return render(request, 'register_new.html')
+# 以列表形式展示客户信息
+def customer_list(request):
+    customer_obj = models.Customer.objects.all()
+    return render(request, 'customer_list.html',{'all_customer':customer_obj})

@@ -72,6 +72,9 @@ class UserProfile(models.Model):
     memo = models.TextField('备注', blank=True, null=True, default=None)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return "{}".format(self.name)
 
 
 class Customer(models.Model):
@@ -100,7 +103,13 @@ class Customer(models.Model):
     # 将客户对象显示为对应内容
     def __str__(self):
         return "{}-{}".format(self.name,self.qq)
-
+    
+    # 展示客户已报班级
+    def show_class(self):
+        return ' | '.join([str(i) for i in self.class_list.all()])
+    
+    # 根据状态不同在前端显示不同的颜色
+    
 
 class Campuses(models.Model):
     """
@@ -108,6 +117,9 @@ class Campuses(models.Model):
     """
     name = models.CharField(verbose_name='校区', max_length=64)
     address = models.CharField(verbose_name='详细地址', max_length=512, blank=True, null=True)
+    
+    def __str__(self):
+        return "{}".format(self.name)
 
 
 class ClassList(models.Model):
@@ -127,6 +139,8 @@ class ClassList(models.Model):
 
     class Meta:
         unique_together = ("course", "semester", 'campuses')
+    def __str__(self):
+        return "{}".format(self.get_course_display())
 
 
 class ConsultRecord(models.Model):

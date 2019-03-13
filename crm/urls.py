@@ -19,6 +19,7 @@ from crm import views
 urlpatterns = [
     url(r'^login/', views.login, name='login'),
     url(r'^register/', views.register, name='register'),
-    url(r'^register_new/', views.register_new, name='register_new'),
     url(r'^index/', views.index, name='index'),
+    url(r'^customer_list/', views.customer_list, name='customer_list'),
+    
 ]
