@@ -55,7 +55,41 @@ def customer_list(request):
     return render(request, 'customer_list.html',{'all_customer':customer_obj})
 
 # 模拟大量用户
-users = [i for i in range(1,202)]
+users = [{'username':'zhang{}'.format(i),'password':'123'} for i in range(1,202)]
 # 分页功能简单
 def user_list(request):
-    return render(request, 'user_list.html',{'user':users})
+    """
+    一页显示20
+
+    第1页  0      20
+    第2页  20     40
+
+      n   (n-1)*20   20*n
+    :param request:
+    :return:
+    """
+    # 从网页获取的页码（加判断）
+    try:
+        # 如果没有页数值传过来
+        page_num = int(request.GET.get('page',1))
+        if page_num <= 0:
+            page_num = 1
+    except ValueError as e:
+        page_num = 1
+    print(">>>", page_num)
+    # 每页显示的数量
+    per_num = 10
+    
+    # 总数据量
+    all_count = len(users)
+    
+    # 总页数
+    page_count, more = divmod(all_count, per_num)
+    if more:
+        page_count += 1
+    
+    # 起始页数
+    start_page = (page_num - 1)*per_num
+    # 结束页数
+    end_page = page_num*per_num
+    return render(request, 'user_list.html',{'all_users':users[start_page:end_page], 'page_count':range(page_num,page_count + 1)})
