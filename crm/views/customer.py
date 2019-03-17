@@ -21,8 +21,7 @@ def my_customer(request):
 
 # 添加客户
 def customer_add(request):
-    # 不包含数据的form
-    form_obj = CustomerForm()
+    form_obj = CustomerForm() # 不包含数据的form
     if request.method == 'POST':
         # 包含用户提交数据的form
         form_obj = CustomerForm(request.POST)
@@ -32,6 +31,24 @@ def customer_add(request):
             # 跳转到展示页面
             return  redirect(reverse('customer_list'))
     return render(request, 'customer_add.html', {'form_obj':form_obj})
+
+# 编辑客户
+def customer_edit(request, edit_id):
+    obj = models.Customer.objects.filter(pk=edit_id).first()
+    # 处理POST
+    if request.method == 'POST':
+        # 包含提交的数据 原始数据
+        form_obj = CustomerForm(request.POST, instance=obj)
+        if form_obj.is_valid():
+            form_obj.save()  # 保存修改
+            # 重定向到展示页面
+            return redirect(reverse('customer_list'))
+    else:
+        # 包含原始数据的form表单
+        form_obj = CustomerForm(instance=obj)
+    return render(request, 'customer_edit.html', {'form_obj': form_obj})
+
+
 # 模拟大量用户
 users = [{'username': 'zhang{}'.format(i), 'password': '123'} for i in range(1, 202)]
 

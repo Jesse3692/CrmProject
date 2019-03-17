@@ -158,7 +158,7 @@ class ClassList(models.Model):
     class Meta:
         unique_together = ("course", "semester", 'campuses')
     def __str__(self):
-        return "{}".format(self.get_course_display())
+        return "{}-{}（{}）".format(self.get_course_display(), self.semester, self.campuses)
 
 
 class ConsultRecord(models.Model):

@@ -32,6 +32,10 @@ def login(request):
         if obj:
             # 登陆成功跳转到主页并保存当前用户的ID
             request.session['pk'] = obj.pk
+            print(obj)  # 用户对象
+            print(obj.pk)  # 用户对象的ID
+            print(request.session)  # session存储对象
+            print(request.session['pk'])
             return redirect(reverse('index'))
         else:
             # 登录失败

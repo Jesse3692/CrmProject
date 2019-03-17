@@ -27,5 +27,5 @@ urlpatterns = [
     # 添加客户
     url(r'^customer_add/', customer.customer_add, name='customer_add'),
     # 编辑客户
-    
+    url(r'^customer_edit/(\d+)/', customer.customer_edit, name='customer_edit'),
 ]
