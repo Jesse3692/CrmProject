@@ -1,6 +1,6 @@
 from django.db import models
-from multiselectfield import MultiSelectField
 from django.utils.safestring import mark_safe
+from multiselectfield import MultiSelectField
 
 # Create your models here.
 course_choices = (('Linux', 'Linux中高级'),
@@ -68,7 +68,7 @@ class UserProfile(models.Model):
     username = models.EmailField(max_length=255, unique=True, )
     password = models.CharField(verbose_name='密码', max_length=128)
     name = models.CharField('名字', max_length=32)
-    department = models.ForeignKey('Department', default=None, blank=True, null=True,verbose_name='部门')
+    department = models.ForeignKey('Department', default=None, blank=True, null=True, verbose_name='部门')
     mobile = models.CharField('手机', max_length=32, default=None, blank=True, null=True)
     memo = models.TextField('备注', blank=True, null=True, default=None)
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -127,7 +127,7 @@ class Customer(models.Model):
         return mark_safe('<p style="background-color:{}; color:#FFF;" class="btn center" type="button">{}</p>'.format(status_color.get(self.status), self.get_status_display()))
         # return mark_safe('<p style="background-color: {};color: white;padding: 2px">hello</p>')
         
-    
+   
 
 class Campuses(models.Model):
     """
