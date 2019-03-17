@@ -30,7 +30,8 @@ def login(request):
         # print('>>>', obj)
         # print(user,pwd)
         if obj:
-            # 登陆成功跳转到主页
+            # 登陆成功跳转到主页并保存当前用户的ID
+            request.session['pk'] = obj.pk
             return redirect(reverse('index'))
         else:
             # 登录失败
