@@ -10,6 +10,13 @@ from crm import models
 from django.core.exceptions import ValidationError
 import hashlib
 
+# BootstrapForm
+class BSForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(BSForm, self).__init__(*args, **kwargs)
+        # 自定义操作
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
 
 # 注册的form
 class RegForm(forms.ModelForm):
@@ -57,5 +64,15 @@ class RegForm(forms.ModelForm):
         # 两次密码不一致
         self.add_error('re_password','两次密码不一致！！')
         raise ValidationError('两次密码不一致')
+    
+# 用户的form
+class CustomerForm(BSForm):
+    class Meta:
+        model = models.Customer
+        fields = '__all__'
+    # 对客户添加的页面进行修饰并去掉course字段的class属性
+    def __init__(self, *args, **kwargs):
+        super(CustomerForm, self).__init__(*args, **kwargs)
+        self.fields['course'].widget.attrs.pop('class')
     
         
