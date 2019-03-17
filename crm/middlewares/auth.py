@@ -23,6 +23,6 @@ class AuthMiddleware(MiddlewareMixin):
         # 如果没有登陆，则跳转到登陆页面
         if not user:
             return redirect(reverse('login'))
-        
+        # 往request对象中添加已登录的用户对象
         request.user_obj = user
         

@@ -23,7 +23,7 @@ urlpatterns = [
     # 展示公户
     url(r'^customer_list/', customer.customer_list, name='customer_list'),
     # 展示私户
-    url(r'^my_customer/', customer.my_customer, name='my_customer'),
+    url(r'^my_customer/', customer.customer_list, name='my_customer'),
     
     # # 添加客户
     # url(r'^customer_add/', customer.customer_add, name='customer_add'),
