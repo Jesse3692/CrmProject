@@ -4,13 +4,10 @@
 # @Author:lcfzh
 # @Time: 2019年03月14日 01:45
 # 说明:
-
+from django.utils.safestring import mark_safe
 class Pagination:
     def __init__(self, page_num, all_count, per_num=10, max_show=11):
-        # 总页数
-        self.page_count, more = divmod(all_count, per_num)
-        if more:
-            self.page_count += 1
+        
             
         # 从网页获取的页码（加判断）
         try:
@@ -18,20 +15,24 @@ class Pagination:
             self.page_num = int(page_num)
             if self.page_num <= 0:
                 self.page_num = 1
-            elif self.page_num >= self.page_count:
-                self.page_num = self.page_count
+            
         except ValueError as e:
             self.page_num = 1
-        print(">>>", self.page_num)
+
         
         # 每页显示的数量
-        self.per_num = 10
+        self.per_num = per_num
     
         # 总数据量
         all_count = all_count
-        
+        # 总页数
+        self.page_count, more = divmod(all_count, per_num)
+        if more:
+            self.page_count += 1
+
+ 
         # 最大显示页数（显示多少个分页按钮）
-        self.max_show = 11
+        self.max_show = max_show
         self.half_show = max_show // 2
         
     @property
@@ -74,7 +75,7 @@ class Pagination:
             page_list.append('<li><a href="?page={}">下一页</a></li>'.format(self.page_num + 1, ))
     
         # 对列表中的标签拼接成字符串
-        return ''.join(page_list)
+        return mark_safe(''.join(page_list))
     
     @property
     def start(self):

@@ -20,5 +20,4 @@ from crm.views import customer
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^crm/', include('crm.urls')),
-    url(r'^user_list/', customer.user_list, name='user_list'),
 ]

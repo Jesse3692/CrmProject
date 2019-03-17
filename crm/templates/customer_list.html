@@ -1,15 +1,28 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <table class="table table-hover table-striped table-bordered">
-        <a class="btn btn-success btn-sm" style="margin: 3px" href="{% url 'customer_add' %}"><i class="fa fa-plus-square"> 添加 </i></a>
-        <thead>
+    <a class="btn btn-success btn-sm" style="margin: 3px" href="{% url 'customer_add' %}"><i class="fa fa-plus-square">
+        添加 </i></a>
+    <form action="" method="post" class="form-inline">
+        {% csrf_token %}
+        <select name="action" id="" class="form-control">
+            {% if request.path_info == '/crm/my_customer/' %}
+                <option value="multi_pub">私户变公户</option>
+            {% else %}
+                <option value="multi_apply">公户变私户</option>
+            {% endif %}
+            <option value="multi_del">批量删除</option>
+        </select>
+        <button class="btn btn-primary btn-sm">提交</button>
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
             <tr>
+                <th>选择</th>
                 <th>序号</th>
                 <th>QQ</th>
                 <th>姓名</th>
                 <th>性别</th>
-{#                <th>出生日期</th>#}
-{#                <th>电话</th>#}
+                {#                <th>出生日期</th>#}
+                {#                <th>电话</th>#}
                 <th>客户来源</th>
                 <th>咨询课程</th>
                 <th>状态</th>
@@ -18,16 +31,19 @@
                 <th>已报班级</th>
                 <th>操作</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for customer in all_customer %}
                 <tr>
+                    <td>
+                        <input type="checkbox" name="ids" value="{{ customer.pk }}">
+                    </td>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ customer.qq }}</td>
                     <td>{{ customer.name }}</td>
                     <td>{{ customer.get_sex_display }}</td>
-{#                    <td>{{ customer.birthday|default:'未填写' }}</td>#}
-{#                    <td>{{ customer.phone|default:'未填写' }}</td>#}
+                    {#                    <td>{{ customer.birthday|default:'未填写' }}</td>#}
+                    {#                    <td>{{ customer.phone|default:'未填写' }}</td>#}
                     <td>{{ customer.get_source_display }}</td>
                     <td>{{ customer.course }}</td>
                     <td>{{ customer.show_status_with_color }}</td>
@@ -41,6 +57,7 @@
                 </tr>
             {% endfor %}
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </form>
 {% endblock %}
