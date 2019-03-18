@@ -61,21 +61,23 @@ class Pagination:
         if self.page_num == 1:  # 如果是第一页则上一页没法使用
             page_list.append('<li class="disabled"><a>上一页</a></li>')
         else:
-            
-            page_list.append('<li><a href="?page={}">上一页</a></li>'.format(self.page_num - 1, ))
+            self.params['page'] = self.page_num -1   # {'query':'alex'}  ——》    {'query':'alex','page':1}
+            page_list.append('<li><a href="?{}">上一页</a></li>'.format(self.params.urlencode()))  # query=alex&page=1
     
         # 添加分页按钮
         for i in range(page_start, page_end + 1):
+            self.params['page'] = i
             if i == self.page_num:  # 当前标签高亮
-                page_list.append('<li class="active"><a href="?page={}">{}</a></li>'.format(i, i))
+                page_list.append('<li class="active"><a href="?{}">{}</a></li>'.format(self.params.urlencode(), i))
             else:
-                page_list.append('<li><a href="?page={}">{}</a></li>'.format(i, i))
+                page_list.append('<li><a href="?{}">{}</a></li>'.format(self.params.urlencode(), i))
     
         # 添加下一页按钮
         if self.page_num == self.page_count:  # 如果是最后一页则下一页没法使用
             page_list.append('<li class="disabled"><a>下一页</a></li>')
         else:
-            page_list.append('<li><a href="?page={}">下一页</a></li>'.format(self.page_num + 1, ))
+            self.params['page'] = self.page_num + 1
+            page_list.append('<li><a href="?{}">下一页</a></li>'.format(self.params.urlencode() , ))
     
         # 对列表中的标签拼接成字符串
         return mark_safe(''.join(page_list))
