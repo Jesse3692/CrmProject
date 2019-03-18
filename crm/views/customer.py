@@ -38,7 +38,7 @@ def customer_list(request):
 # 以CBV的方式显示客户列表
 class CustomerList(View):
     def get(self, request, *args, **kwargs):
-        q = self.search(['qq', 'name',])
+        q = self.search(['qq', 'name', 'sex'])
         if request.path_info == reverse('customer_list'):
             all_customer = models.Customer.objects.filter(q, consultant__isnull=True)  # 销售为空
         else:
@@ -95,6 +95,15 @@ class CustomerList(View):
         
         for field in field_list:
             # q.children.append(Q(qq__contains=query))
+            # 替换搜索的内容
+            if field == 'sex':
+                if query == '男':
+                    sex = 'male'
+                elif query == '女':
+                    sex = 'female'
+                else:
+                    sex = ''
+                q.children.append(Q(sex=sex))
             q.children.append(Q(('{}__contains'.format(field), query)))
         return q
 
@@ -109,7 +118,9 @@ def customer_change(request, edit_id=None):
         if form_obj.is_valid():
             form_obj.save()  # 保存修改
             # 重定向到展示页面
-            return redirect(reverse('customer_list'))
+            next = request.GET.get('next')
+            print('next>>>>>', next)
+            return redirect(next)
     else:
         # 包含原始数据的form表单
         form_obj = CustomerForm(instance=obj)

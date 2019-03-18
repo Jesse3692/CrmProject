@@ -65,7 +65,12 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            # 注册自定义标签
+            'libraries':{
+                'my_tags':'crm.templatetags.my_tags'
+            },
         },
+        
     },
 ]
 

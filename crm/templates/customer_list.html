@@ -1,7 +1,8 @@
 {% extends 'layout.html' %}
 {% block content %}
+    {% load my_tags %}
     <div>
-       <a class="btn btn-success btn-sm" style="margin: 3px" href="{% url 'customer_add' %}">
+       <a class="btn btn-success btn-sm" style="margin: 3px" href="{% reverse_url request 'customer_add' %}">
         <i class="fa fa-plus-square">添加 </i>
     </a>
     </div>
@@ -58,7 +59,8 @@
                     <td>{{ customer.consultant }}</td>
                     <td>{{ customer.show_class }}</td>
                     <td>
-                        <a href="{% url 'customer_edit' customer.pk %}"><i class="fa fa-pencil-square-o"></i></a>
+{#                        <a href="{% url 'customer_edit' customer.pk %}"><i class="fa fa-pencil-square-o"></i></a>#}
+                        <a href="{% reverse_url request 'customer_edit' customer.pk %}"><i class="fa fa-pencil-square-o"></i></a>
                     </td>
 
                 </tr>

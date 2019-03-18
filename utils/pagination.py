@@ -6,11 +6,15 @@
 # 说明:
 from django.utils.safestring import mark_safe
 from django.http.request import QueryDict
+
+
 class Pagination:
-    def __init__(self, page_num, all_count, params=QueryDict(mutable=True), per_num=10, max_show=11):
+    def __init__(self, page_num, all_count, params=None, per_num=10, max_show=11):
         
         # 参数
         self.params = params
+        if not self.params:
+            self.params = QueryDict(mutable=True)
         # 从网页获取的页码（加判断）
         try:
             # 如果没有页数值传过来
