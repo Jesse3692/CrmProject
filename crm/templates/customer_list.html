@@ -1,7 +1,14 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <a class="btn btn-success btn-sm" style="margin: 3px" href="{% url 'customer_add' %}"><i class="fa fa-plus-square">
-        添加 </i></a>
+    <div>
+       <a class="btn btn-success btn-sm" style="margin: 3px" href="{% url 'customer_add' %}">
+        <i class="fa fa-plus-square">添加 </i>
+    </a>
+    </div>
+    <form action="" method="get" class="form-inline pull-right">
+        <input type="text" name="query" class="form-control">
+        <button class="btn-sm btn btn-primary">搜索</button>
+    </form>
     <form action="" method="post" class="form-inline">
         {% csrf_token %}
         <select name="action" id="" class="form-control">

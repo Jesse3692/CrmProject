@@ -5,10 +5,12 @@
 # @Time: 2019年03月14日 01:45
 # 说明:
 from django.utils.safestring import mark_safe
+from django.http.request import QueryDict
 class Pagination:
-    def __init__(self, page_num, all_count, per_num=10, max_show=11):
+    def __init__(self, page_num, all_count, params=QueryDict(mutable=True), per_num=10, max_show=11):
         
-            
+        # 参数
+        self.params = params
         # 从网页获取的页码（加判断）
         try:
             # 如果没有页数值传过来
@@ -59,6 +61,7 @@ class Pagination:
         if self.page_num == 1:  # 如果是第一页则上一页没法使用
             page_list.append('<li class="disabled"><a>上一页</a></li>')
         else:
+            
             page_list.append('<li><a href="?page={}">上一页</a></li>'.format(self.page_num - 1, ))
     
         # 添加分页按钮
