@@ -74,5 +74,12 @@ class CustomerForm(BSForm):
     def __init__(self, *args, **kwargs):
         super(CustomerForm, self).__init__(*args, **kwargs)
         self.fields['course'].widget.attrs.pop('class')
+        
+# 跟进的form
+class ConsultForm(BSForm):
+    
+    class Meta:
+        model = models.ConsultRecord
+        fields = '__all__'
     
         

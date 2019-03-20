@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from crm.views import auth,customer
+from crm.views import auth,customer,consult
 
 urlpatterns = [
     url(r'^login/', auth.login, name='login'),
@@ -37,4 +37,9 @@ urlpatterns = [
     url(r'^customer_add/',customer.customer_change, name='customer_add'),
     # 编辑客户
     url(r'^customer_edit/(\d+)/', customer.customer_change, name='customer_edit'),
+    
+    # 展示跟进 ConsultRecord
+    url(r'^consult_list/', consult.ConsultList.as_view(), name='consult_list'),
+    # 添加跟进
+    url(r'^consult_add/', consult.consult_add, name='consult_add'),
 ]
