@@ -16,7 +16,9 @@ class BSForm(forms.ModelForm):
         super(BSForm, self).__init__(*args, **kwargs)
         # 自定义操作
         for field in self.fields.values():
-            field.widget.attrs['class'] = 'form-control'
+            if not isinstance(field, forms.BooleanField):
+                # field.widget.attrs['class'] = 'form-control'
+                field.widget.attrs.update({'class':'form-control'})
 
 # 注册的form
 class RegForm(forms.ModelForm):
@@ -65,7 +67,7 @@ class RegForm(forms.ModelForm):
         self.add_error('re_password','两次密码不一致！！')
         raise ValidationError('两次密码不一致')
     
-# 用户的form
+# 客户的form
 class CustomerForm(BSForm):
     class Meta:
         model = models.Customer
